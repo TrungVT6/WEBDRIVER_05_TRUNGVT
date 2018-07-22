@@ -85,7 +85,7 @@ public int randomEmail() {
 	  driver.findElement(By.xpath("//*[@id='header']//a[@class='skip-link skip-account']")).click();
 	  driver.findElement(By.xpath(".//*[@id='header-account']//a[@title='Log Out']")).click();
 	  
-	  Thread.sleep(7000);
+	  Thread.sleep(6000);
 	  String checkHomepage = driver.getCurrentUrl();
 	  Assert.assertEquals(checkHomepage, "http://live.guru99.com/index.php/");
   }
