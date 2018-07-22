@@ -58,7 +58,7 @@ public int randomEmail() {
 	  driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
 	  driver.findElement(By.id("email")).sendKeys("automation@gmail.com");
-	  driver.findElement(By.id("pass")).sendKeys("1234");
+	  driver.findElement(By.id("pass")).sendKeys("1233");
 	  driver.findElement(By.id("send2")).click();
 	  
 	  String passwordIncorectMessage = driver.findElement(By.id("advice-validate-password-pass")).getText();
