@@ -28,10 +28,8 @@ public void isControlEnabled(WebElement element) {
 	}
 }
 
-public boolean isControlSelected(WebElement driver, String yourLocator) {
-	WebElement locator;
-	locator = driver.findElement(By.id(yourLocator));
-	return locator.isSelected();
+public boolean isControlSelected(WebElement element) {
+	return element.isSelected();
 	}
 
 	  @BeforeClass
@@ -99,11 +97,17 @@ public boolean isControlSelected(WebElement driver, String yourLocator) {
 
   @Test
   public void TC_03_IsSelected() { 
-	  String ageUnder18 = "under_18";
-	  driver.findElement(By.id(ageUnder18));
+	  WebElement ageUnder18 = driver.findElement(By.id("under_18"));
+	  ageUnder18.click();
 	  WebElement developmentCheckbox = driver.findElement(By.id("development"));
+	  developmentCheckbox.click();
 	  
-	  // isControlSelected(driver, ageUnder18);
+	  if(isControlSelected(ageUnder18) && isControlSelected(developmentCheckbox)) {
+		  System.out.println("They was selected");
+	  }else {
+		  ageUnder18.click();
+		  developmentCheckbox.click();
+	  }
 	  
   }
   @AfterClass
