@@ -15,20 +15,24 @@ public class Topic_03_WebElement_Browser {
 	WebDriver driver;
 	String baseURL = "http://daominhdam.890m.com/";
 
-	
 public boolean isControlDisplayed(WebElement element) {
 	return element.isDisplayed();
 }	
 
 public void isControlEnabled(WebElement element) {
-	String elementName = element.toString();
 	if(element.isEnabled()) {
-		System.out.println(elementName+" is enabled");
+		System.out.println(element+" is enabled");
 	}
 	else {
-		System.out.println(elementName+" is disabled");
+		System.out.println(element+" is disabled");
 	}
 }
+
+public boolean isControlSelected(WebElement driver, String yourLocator) {
+	WebElement locator;
+	locator = driver.findElement(By.id(yourLocator));
+	return locator.isSelected();
+	}
 
 	  @BeforeClass
 	  public void beforeClass() {
@@ -93,7 +97,15 @@ public void isControlEnabled(WebElement element) {
 	  isControlEnabled(slide02);
   }
 
-  
+  @Test
+  public void TC_03_IsSelected() { 
+	  String ageUnder18 = "under_18";
+	  driver.findElement(By.id(ageUnder18));
+	  WebElement developmentCheckbox = driver.findElement(By.id("development"));
+	  
+	  // isControlSelected(driver, ageUnder18);
+	  
+  }
   @AfterClass
   public void afterClass() {
 	  driver.quit();
