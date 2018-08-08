@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-//import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -40,8 +39,6 @@ public class Topic_06_Button_Radio_Checkbox_Alert {
 	@BeforeClass
 	public void beforeClass() {
 		driver = new FirefoxDriver();
-		// System.setProperty("webdriver.chrome.driver", ".\\driver\\chromedriver.exe");
-		// driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
