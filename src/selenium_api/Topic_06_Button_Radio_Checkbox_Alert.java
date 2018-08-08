@@ -3,12 +3,13 @@ package selenium_api;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-// import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
@@ -38,9 +39,9 @@ public class Topic_06_Button_Radio_Checkbox_Alert {
 
   @BeforeClass
   public void beforeClass() {
-    driver = new FirefoxDriver();
-    // System.setProperty("webdriver.chrome.driver", ".\\driver\\chromedriver.exe");
-    // driver = new ChromeDriver();
+    //driver = new FirefoxDriver();
+    System.setProperty("webdriver.chrome.driver", ".\\driver\\chromedriver.exe");
+    driver = new ChromeDriver();
     driver.manage().window().maximize();
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
@@ -70,11 +71,48 @@ public class Topic_06_Button_Radio_Checkbox_Alert {
     Assert.assertFalse(isElementSelected(dualZoneAirConditioning));
   }
 
-  //public void TC_03_CustomRadioButton() {
+//  public void TC_03_CustomRadioButton() {
+//  }
+  
+  @Test
+  public void TC_04_Alert() {
+    driver.get(baseURL4);
+    clickElementByJavascript("//button[@onclick='jsAlert()']");
+    Alert alert = driver.switchTo().alert();
+    Assert.assertEquals(alert.getText(), "I am a JS Alert");
+    
+    alert.accept();
+    Assert.assertEquals(driver.findElement(By.xpath("//p[@id='result']")).getText(), "You clicked an alert successfully");
+  }
+  
+  @Test
+  public void TC_05_AlertConfirm() {
+    driver.get(baseURL4);
+    clickElementByJavascript("//button[@onclick='jsConfirm()']");
+    Alert alert = driver.switchTo().alert();
+    Assert.assertEquals(alert.getText(), "I am a JS Confirm");
+    
+    alert.dismiss();
+    Assert.assertEquals(driver.findElement(By.xpath("//p[@id='result']")).getText(), "You clicked: Cancel");
+  }
+  
+@Test
+  public void TC_06_AlertPrompt() throws Exception {
+    driver.get(baseURL4);
+    String text = "Automation";
+    
+    clickElementByJavascript("//button[@onclick='jsPrompt()']");
+    Alert alert = driver.switchTo().alert();
+    Assert.assertEquals(alert.getText(), "I am a JS prompt");
+    
+    alert.sendKeys(text);
+    alert.accept();
+    Assert.assertEquals(driver.findElement(By.xpath("//p[@id='result']")).getText(), "You entered: "+text );
+  }
   
   @AfterClass
   public void afterClass() {
-    driver.quit();
+    //driver.quit();
   }
 
 }
