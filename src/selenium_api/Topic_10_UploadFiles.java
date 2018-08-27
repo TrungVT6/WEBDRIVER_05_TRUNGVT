@@ -3,10 +3,10 @@ package selenium_api;
 import org.testng.annotations.Test;
 import com.sun.glass.events.KeyEvent;
 import org.testng.annotations.BeforeClass;
-import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
@@ -24,8 +24,12 @@ public class Topic_10_UploadFiles {
   WebDriver driver;
   WebDriverWait wait;
   String projectDirectory = System.getProperty("user.dir");
-  String fileName         = "upload1.jpg";
-  String uploadFilePath   = projectDirectory + "\\image\\" + fileName;
+  String fileName1         = "upload1.jpg";
+  String uploadFilePath1   = projectDirectory + "\\image\\" + fileName1;
+  
+  String fileName2         = "upload2.jpg";
+  String uploadFilePath2   = projectDirectory + "\\image\\" + fileName2;
+  
   
   String chromeUpload     = projectDirectory + "\\upload\\chrome.exe";
   String firefoxUpload    = projectDirectory + "\\upload\\firefox.exe";
@@ -54,25 +58,33 @@ public class Topic_10_UploadFiles {
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
-  
+  @Test
   public void TC_01_UploadFileBySendkeys() throws Exception {
     //Step 1
     driver.get(baseURL1);
     
     //Step 2
-    WebElement Addfiles = driver.findElement(By.xpath("//input[@type = 'file']"));
-    Addfiles.sendKeys(uploadFilePath);
-    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + fileName + "']")).isDisplayed());
+    String files[] = {uploadFilePath1, uploadFilePath2};
+    for(int i=0; i<files.length; i++) {
+      WebElement Addfiles = driver.findElement(By.xpath("//input[@type = 'file']"));
+      Addfiles.sendKeys(files[i]);
+    }
     
-    WebElement startbtn = driver.findElement(By.xpath("//table//button[@class='btn btn-primary start']"));
-    wait.until(ExpectedConditions.elementToBeClickable(startbtn));
-    startbtn.click();
+    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + fileName1 + "']")).isDisplayed());
+    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + fileName2 + "']")).isDisplayed());
+    
+    List<WebElement> startbtn = driver.findElements(By.xpath("//table//button[@class='btn btn-primary start']"));
+    for(WebElement btn : startbtn) {
+    wait.until(ExpectedConditions.elementToBeClickable(btn));
+    btn.click();
+    }
     
     //Step 3
-    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[@title='" + fileName + "']")).isDisplayed());
+    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[@title='" + fileName1 + "']")).isDisplayed());
+    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[@title='" + fileName2 + "']")).isDisplayed());
   }
 
-  
+  @Test
   public void TC_02_UploadFileByAutoIT() throws Exception {
     //Step 1
     driver.get(baseURL1);
@@ -82,15 +94,15 @@ public class Topic_10_UploadFiles {
     Addfiles.click();
     
     //Runtime.getRuntime().exec(new String[] {firefoxUpload , uploadFilePath });
-    Runtime.getRuntime().exec(new String[] {chromeUpload , uploadFilePath });
-    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + fileName + "']")).isDisplayed());
+    Runtime.getRuntime().exec(new String[] {chromeUpload , uploadFilePath1 });
+    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + fileName1 + "']")).isDisplayed());
     
     WebElement startbtn = driver.findElement(By.xpath("//table//button[@class='btn btn-primary start']"));
     wait.until(ExpectedConditions.elementToBeClickable(startbtn));
     startbtn.click();
     
     //Step 3
-    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[@title='" + fileName + "']")).isDisplayed());
+    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[@title='" + fileName1 + "']")).isDisplayed());
   }
   
   @Test
@@ -99,7 +111,7 @@ public class Topic_10_UploadFiles {
     driver.get(baseURL1);
     
     //Step 2
-    StringSelection select = new StringSelection(uploadFilePath);
+    StringSelection select = new StringSelection(uploadFilePath1);
     Toolkit.getDefaultToolkit().getSystemClipboard().setContents(select, null);
     
     WebElement Addfiles = driver.findElement(By.cssSelector(".fileinput-button"));
@@ -121,24 +133,24 @@ public class Topic_10_UploadFiles {
     robot.keyPress(KeyEvent.VK_ENTER);
     robot.keyRelease(KeyEvent.VK_ENTER);
     
-    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + fileName + "']")).isDisplayed());
+    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name' and text()='" + fileName1 + "']")).isDisplayed());
     
     WebElement startbtn = driver.findElement(By.xpath("//table//button[@class='btn btn-primary start']"));
     wait.until(ExpectedConditions.elementToBeClickable(startbtn));
     startbtn.click();
     
     //Step 3
-    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[@title='" + fileName + "']")).isDisplayed());
+    Assert.assertTrue(driver.findElement(By.xpath("//p[@class='name']/a[@title='" + fileName1 + "']")).isDisplayed());
   }
   
-  
+  @Test
   public void TC_04_UploadFiles() {
     //Step 1
     driver.get(baseURL2);
     
     //Step 2
     WebElement chooseFilebtn = driver.findElement(By.xpath("//input[@type = 'file']"));
-    chooseFilebtn.sendKeys(uploadFilePath);
+    chooseFilebtn.sendKeys(uploadFilePath1);
     
     //Step 3
     WebElement dropdownList = driver.findElement(By.xpath("//select[@name='subdir1']"));
@@ -164,7 +176,7 @@ public class Topic_10_UploadFiles {
     Assert.assertTrue(emailInfo.isDisplayed());
     WebElement namelInfo = driver.findElement(By.xpath("//div[@id='uploadDoneContainer']//dd[text()='First Name: " + Name + "']"));
     Assert.assertTrue(namelInfo.isDisplayed());
-    WebElement fileNameInfo = driver.findElement(By.xpath("//div[@id='uploadDoneContainer']//dt//a[text()='" + fileName + "']"));
+    WebElement fileNameInfo = driver.findElement(By.xpath("//div[@id='uploadDoneContainer']//dt//a[text()='" + fileName1 + "']"));
     Assert.assertTrue(fileNameInfo.isDisplayed());
     
     //Step 8
@@ -176,7 +188,7 @@ public class Topic_10_UploadFiles {
     newFolder.click();
     
     //Step 10
-    WebElement file = driver.findElement(By.xpath("//a[text()='" + fileName + "']"));
+    WebElement file = driver.findElement(By.xpath("//a[text()='" + fileName1 + "']"));
     Assert.assertTrue(file.isDisplayed());
     
   }
