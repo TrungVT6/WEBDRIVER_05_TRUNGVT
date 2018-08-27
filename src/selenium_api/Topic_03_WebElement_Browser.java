@@ -108,7 +108,6 @@ public class Topic_03_WebElement_Browser {
       ageUnder18.click();
       developmentCheckbox.click();
     }
-
   }
 
   @AfterClass
