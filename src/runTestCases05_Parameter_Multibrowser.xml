@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="tests" >
+
+  <test name="Run on firefox">
+    <parameter name = "browser" value = "firefox" />
+    <classes>
+      <class name="webdriver_testng.TestNG_Parameter_Multibrowser"/>
+    </classes>
+  </test> 
+  
+  <test name="Run on chrome">
+    <parameter name = "browser" value = "chrome" />
+    <classes>
+      <class name="webdriver_testng.TestNG_Loop"/>
+    </classes>
+  </test> 
+  
+</suite> 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="false">
+  <test name="Test">
+    <classes>
+      <class name="webdriver_testng.TestNG_Annotation_01"/>
+      <class name="webdriver_testng.TestNG_Annotation_02"/>
+    </classes>
+  </test>
+</suite> 
